@@ -1,0 +1,70 @@
+﻿<Page x:Class="BusinessManager.Views.CounterPartySecondMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BusinessManager.Views"
+       xmlns:modelview="clr-namespace:BusinessManager.ViewModel"
+      mc:Ignorable="d" 
+      Title="CounterPartySecondMenu"
+      d:DesignHeight="600" d:DesignWidth="533" >
+    <Page.DataContext>
+        <modelview:CounterpartyViewModel/>
+    </Page.DataContext>
+    <Border CornerRadius="5">
+        <Grid Background="White" Margin="0,0,0.143,0">
+            <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Command="{Binding btncloseCOunterPartySecondMenu}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="482,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="40,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="22" FontFamily="Yu Gothic UI Semibold" Width="250"><Run Text="Создание  "/><Run Text="контраген"/><Run Text="та"/></TextBlock>
+            <TextBlock HorizontalAlignment="Left" Margin="40,91,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+            <TextBox MaxLength="50" Name="Name" HorizontalAlignment="Left" Height="32" Margin="181,89,0,0" TextWrapping="Wrap" Text="{Binding  Сounterparty_Name,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="301" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Foreground="#B2000000" Cursor="Arrow">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock Foreground="#B26D6D6D" Width="131">Например, Васильев</TextBlock>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+            <TextBlock HorizontalAlignment="Left" Margin="40,184,0,0" TextWrapping="Wrap" Text="Комментарий" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+            <TextBox MaxLength="200" Name="Comment" HorizontalAlignment="Left" Height="113" Margin="181,184,0,0" TextWrapping="Wrap" Text="{Binding Сounterparty_Comment,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="301" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="{DynamicResource MaterialDesignBody}" Cursor="Arrow">
+                <materialDesign:HintAssist.Hint>
+                    <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Дайте краткое описание контрагенту, если это необходимо</TextBlock>
+                </materialDesign:HintAssist.Hint>
+            </TextBox>
+            <Button Content="Создать"  Command="{Binding AddNewСounterparty}" HorizontalAlignment="Left" Margin="370,342,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold">
+              
+                <Button.Style>
+                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+
+                        <Style.Triggers>
+
+                            <MultiDataTrigger>
+
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=FirstInput}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+
+                                <Setter Property="IsEnabled" Value="True"/>
+
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=Name, Path=Text.Length}" Value="0" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False" />
+                            </MultiDataTrigger>
+
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=Comment, Path=Text.Length}" Value="0" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False" />
+                            </MultiDataTrigger>
+
+                        </Style.Triggers>
+                    </Style>
+
+                </Button.Style>
+            </Button>
+            <Button Content="Отменить" Command="{Binding btncloseCOunterPartySecondMenu}" Cursor="Hand" HorizontalAlignment="Left"  Margin="240,342,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+        </Grid>
+    </Border>
+</Page>

@@ -1,0 +1,18 @@
+﻿<Window x:Class="BusinessManager.Views.ModalWindows.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BusinessManager.Views.ModalWindows"
+        mc:Ignorable="d"
+        Title="MessageWindow" Height="450" Width="800"
+        AllowsTransparency="True" Background="Transparent" MinHeight="216"  MaxHeight="216"
+        MinWidth="384" MaxWidth="384" WindowStyle="None" WindowStartupLocation="CenterScreen" >
+    <Border CornerRadius="10" Background="#FFC5E6FF" Margin="0,0,0,-0.286"  >
+
+        <Grid  VerticalAlignment="Stretch" Background="#FFD9D9D9"  >
+            <TextBlock HorizontalAlignment="Center" TextAlignment="Center" Margin="51,52,36,52" TextWrapping="Wrap" FontSize="24" FontWeight="Bold" Foreground="Black"><Run Text="Заявка оставлена!"/><LineBreak/><Run Language="ru-ru" Text="Ответ будет на вашей почте "/><Run Text="!"/></TextBlock>
+            <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="0,10,10,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="25" Click="btnClose_Click"/>
+        </Grid>
+    </Border>
+</Window>

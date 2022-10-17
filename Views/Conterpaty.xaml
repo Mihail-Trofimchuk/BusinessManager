@@ -1,0 +1,390 @@
+﻿<Page x:Class="BusinessManager.Views.Pages.Conterpaty"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BusinessManager.Views.Pages"
+      xmlns:modelview="clr-namespace:BusinessManager.ViewModel"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+    
+      
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Name ="Conterparty"
+      Title="Conterpaty">
+
+    <Page.DataContext  >
+        <modelview:CounterpartyViewModel />
+    </Page.DataContext>
+
+
+    <Grid  Background="{DynamicResource SecundaryBackgroundColor}" Margin="0,0,-0.286,0.143" Width="Auto"  >
+        <TextBlock Margin="261,0,378,10" TextWrapping="Wrap" Text="Количество юрлиц:" VerticalAlignment="Bottom" Height="30" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#7F000000"/>
+        <TextBlock x:Name="CountofLegalEntity" Text="{Binding AllLegalEntityById.Count, UpdateSourceTrigger=PropertyChanged}" Margin="427,0,352,18" Foreground="{DynamicResource PrimaryBlue}" FontSize="25" Height="32" VerticalAlignment="Bottom"/>
+        <Grid Margin="239,150,28.286,242.143" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <TextBlock HorizontalAlignment="Left" Margin="-2,16,0,0" TextWrapping="Wrap" Text="Контрагенты" VerticalAlignment="Top" Height="30" Width="141" FontFamily="Yu Gothic UI Semibold" FontSize="22" RenderTransformOrigin="0.5,0.5">
+                <TextBlock.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </TextBlock.RenderTransform>
+            </TextBlock>
+            <Button x:Name="OperationMenu_Copy" Content="Создать" HorizontalAlignment="Left" Margin="218,14,0,0" VerticalAlignment="Top" Width="146" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Command="{Binding OpenCounterPartySecondMenu}" CommandParameter="{Binding ElementName=Conterparty}" Height="33" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Button.RenderTransform>
+            </Button>
+        </Grid>
+        <Grid Margin="0,0,-580.714,-0.286" HorizontalAlignment="Left" Width="799">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Margin="223,10,10,0" Width="Auto" Height="51" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="0,10,285.571,411.143" TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Right" Width="88"/>
+                <Button Name="OperationMenu" Content="Создать" HorizontalAlignment="Left" Margin="235,9,0,0" VerticalAlignment="Top" Width="146" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Command="{Binding OpenCounterPartyMenu}" CommandParameter="{Binding ElementName=Conterparty}" Cursor="Hand"/>
+
+            </Grid>
+
+            <Border MaxWidth="800" CornerRadius="5" Background="#05230063" Margin="0,0,0,-1" HorizontalAlignment="Left" Width="218">
+
+                <Grid Margin="0,0,0.286,-0.286">
+
+                    <TextBlock HorizontalAlignment="Left" Margin="20,22,0,0" TextWrapping="Wrap" Text="Фильтры" VerticalAlignment="Top" Height="27" Width="84" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+
+                    <TextBlock HorizontalAlignment="Left" Margin="19,78,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="150" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878"><Run Text="Название "/><Run Text="юрлица"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="20,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="175" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878" Text="Название контрагента"/>
+                    <TextBox  Text="{Binding LegalEntityName, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="25" Margin="20,119,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159" FontFamily="Yu Gothic UI Semibold" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Background="{x:Null}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="#71000000" Cursor="Arrow">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Введите название</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+
+
+                    <TextBlock HorizontalAlignment="Left" Margin="238,18,-137,0" TextWrapping="Wrap" Text="Юрлица" VerticalAlignment="Top" Height="27" Width="117" FontFamily="Yu Gothic UI Semibold" FontSize="22"/>
+                    <TextBox HorizontalAlignment="Left" Height="25" Margin="19,219,0,0" TextWrapping="Wrap"   Text="{Binding ConterPartyName, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="159" FontFamily="Yu Gothic UI Semibold" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Background="{x:Null}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="#71000000">
+                        <TextBox.InputBindings>
+                            <MouseBinding Command="{Binding SearchLegalEntity}" CommandParameter="{Binding ElementName=Conterparty}" Gesture="LeftClick" />
+                        </TextBox.InputBindings>
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Введите название</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+
+                    </TextBox>
+
+                </Grid>
+
+            </Border>
+            <TextBlock Margin="522,0,69,12" TextWrapping="Wrap" Text="Количество контрагентов:" VerticalAlignment="Bottom" Height="30" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#7F000000"/>
+            <TextBlock x:Name="CountofCounterparty" Text="{Binding AllcounterPartiesById.Count, UpdateSourceTrigger=PropertyChanged}" Margin="735,0,36,16" TextWrapping="Wrap" VerticalAlignment="Bottom" Height="36" FontFamily="Segoe UI" FontSize="25" Foreground="{DynamicResource PrimaryBlue}"/>
+            <!--{Binding Path=PositionLegalEntity.Count}-->
+
+
+
+
+
+        </Grid>
+
+        <ListView   Name="ViewAllLegalEntity" SelectedItem="{Binding LegalEntityNa,UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding AllLegalEntityById, UpdateSourceTrigger=PropertyChanged}" MaxHeight="400" Background="White"  Margin="241,64,10.286,318.143" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="{DynamicResource PrimaryBlue}" SelectedIndex="0" >
+            <ListView.ContextMenu>
+                <ContextMenu  Background="White" >
+                    <!-- Редактирование -->
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding ChangeLegalEntity}"    Header="Редактировать" Foreground="{DynamicResource PrimaryBlue}" />
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding DeleteLegalEntity}"     Header="Удалить" Foreground="{DynamicResource PrimaryBlue}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="ListItemHoverFill" Color="LightBlue"/>
+                    </Style.Resources>
+                    <Setter Property="Height" Value="50" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border CornerRadius="0" SnapsToDevicePixels="True"  
+                              BorderThickness="0,-1,0,1"   
+                              BorderBrush="#dcdbd5"   
+                              Background="{TemplateBinding Background}">
+                                    <Border Name="InnerBorder" CornerRadius="0" BorderThickness="0">
+                                        <Grid>
+                                            <Rectangle Name="UpperHighlight" Visibility="Collapsed" Fill="Transparent" />
+                                            <GridViewRowPresenter Grid.RowSpan="0"   
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"   
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected"  Value="True" >
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Width="Auto"  DisplayMemberBinding="{Binding Path=LegalEntity_Name}">Название юрлица</GridViewColumn>
+                    <GridViewColumn Width="Auto"  DisplayMemberBinding="{Binding Path=LegalEntity_FullName}">Полное название</GridViewColumn>
+                    <GridViewColumn Width="Auto"  DisplayMemberBinding="{Binding Path=LegalEntity_Comment}">Комментарий</GridViewColumn>
+                </GridView>
+
+            </ListView.View>
+
+        </ListView>
+
+        <ListView  ItemsSource="{Binding AllcounterPartiesById,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectCounterparty,UpdateSourceTrigger=PropertyChanged}" MinHeight="200" MaxHeight="300" Background="Transparent"  x:Name="ViewAllCounterParty" Margin="239,0,10.286,53.143" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="{DynamicResource PrimaryBlue}" SelectedIndex="0" Height="144" VerticalAlignment="Bottom" >
+            <ListView.ContextMenu>
+                <ContextMenu  Background="White" >
+                    <!-- Редактирование ChangeNewCounterParty -->
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding ChangeCounterparty}"    Header="Редактировать" Foreground="{DynamicResource PrimaryBlue}" />
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding DeleteCounterparty}"    Header="Удалить" Foreground="{DynamicResource PrimaryBlue}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="ListItemHoverFill" Color="LightBlue"/>
+                    </Style.Resources>
+                    <Setter Property="Height" Value="50" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border CornerRadius="0" SnapsToDevicePixels="True"  
+                                    BorderThickness="0,-1,0,1"   
+                                    BorderBrush="#dcdbd5"   
+                                    Background="{TemplateBinding Background}">
+                                    <Border x:Name="InnerBorder" CornerRadius="0" BorderThickness="0">
+                                        <Grid>
+                                            <Rectangle x:Name="UpperHighlight" Visibility="Collapsed" Fill="Transparent" />
+                                            <GridViewRowPresenter Grid.RowSpan="0"   
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"   
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected"  Value="True" >
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Сounterparty_Name}" Header="Имя контрагента"/>
+                    <GridViewColumn Width="Auto" DisplayMemberBinding="{Binding Path=Сounterparty_Comment}" Header="Комментарий"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Окно добавление юрлица -->
+        <Grid Name="CounterPartyMenu"  MinWidth="520" Visibility="Hidden" HorizontalAlignment="Left" >
+            <Frame Name="CounterPartyMenuNav" NavigationUIVisibility="Hidden" Background="Transparent" Margin="-2,0,4,-2"   RenderTransformOrigin="0.5,0.5">
+                <Frame.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform AngleX="-0.203"/>
+                        <RotateTransform/>
+                        <TranslateTransform X="-1.097"/>
+                    </TransformGroup>
+                </Frame.RenderTransform>
+            </Frame>
+
+        </Grid>
+        <!-- Окно добавление контрагента -->
+        <Grid Name="CounterPartySecondMenu" MinWidth="520"  Visibility="Hidden" HorizontalAlignment="Left" Width="520">
+            <Frame Name="CounterPartySecondMenuNav" NavigationUIVisibility="Hidden" Background="Transparent"/>
+            <!-- Окно редактирования юрлица-->
+            <Border Visibility="Hidden" Name="LegalEntitychange"  CornerRadius="5">
+                <Grid Background="White" Margin="0,0,0.143,0">
+                    <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}"  Command="{Binding btnclosechangel}"  Tag="IsCloseButton" Margin="482,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="22" FontFamily="Yu Gothic UI Semibold" Width="296"><Run Text="Редактирование  "/><Run Text="юрлица"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,91,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+                    <TextBox MaxLength="50" Name="Name" HorizontalAlignment="Left" Height="32" Margin="190,89,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="292" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Foreground="#B2000000" Cursor="Arrow">
+                        <Binding Path="LegalEntity_Namec" UpdateSourceTrigger="PropertyChanged">
+
+                        </Binding>
+
+                        <!--Text="{Binding LegalEntity_Name, Mode=TwoWay}"-->
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Например, Васильев</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,162,0,0" TextWrapping="Wrap" Text="Полное название" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,241,0,0" TextWrapping="Wrap" Text="Комментарий" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+                    <TextBox MaxLength="200" Name="Comment" HorizontalAlignment="Left" Height="113" Margin="161,241,0,0" TextWrapping="Wrap" Text="{Binding LegalEntity_Commentc, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="321" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" Foreground="#B2000000" Cursor="Arrow">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="311" Height="37">Дайте краткое пояснение юрлицу, если это необходимо</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <Button Content="Редактировать"    Command="{Binding ChangeNewLegalEntity}" CommandParameter="{Binding ElementName=LegalEntityPage}"  HorizontalAlignment="Left" Margin="368,400,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="3"/>
+                            </Style>
+                        </Button.Resources>
+                        <Button.Style>
+                            <Style TargetType="Button">
+
+
+                                <Setter Property="Background" Value="{Binding PrimaryBlue}"/>
+                                <Setter Property="Foreground" Value="White"/>
+
+                                <Style.Triggers>
+
+                                    <MultiDataTrigger>
+
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Path=(Validation.HasError), ElementName=FirstInput}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="True"/>
+
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=Name, Path=Text.Length}" Value="0" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=FullName, Path=Text.Length}" Value="0" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=Comment, Path=Text.Length}" Value="0" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Отменить" Command="{Binding btnclosechangel}" Cursor="Hand" HorizontalAlignment="Left"  Margin="238,400,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+                    <TextBox MaxLength="50" Name="FullName" HorizontalAlignment="Left" Height="32" Margin="190,160,0,0" TextWrapping="Wrap" Text="{Binding LegalEntity_FullNamec, Mode=TwoWay}" VerticalAlignment="Top" Width="292" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Foreground="#B2000000" Cursor="Arrow">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Например: OOO "Васильев и Партнеры"</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                </Grid>
+            </Border>
+
+
+            <!-- Окно  редактирования контрагнета-->
+            <Border  Visibility="Hidden" CornerRadius="5" Name="Counterparychange" >
+                <Grid Background="White" Margin="0,0,0.143,0">
+                    <Button  Style="{StaticResource IconButtonsStyle}" Command="{Binding btncloseCOunterPartySecondMenu}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="482,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="22" FontFamily="Yu Gothic UI Semibold" Width="371"><Run Text="Редактирование  "/><Run Text="контраген"/><Run Text="та"/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,91,0,0" TextWrapping="Wrap" Text="Название" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+                    <TextBox MaxLength="50" Name="Name2" HorizontalAlignment="Left" Height="32" Margin="181,89,0,0" TextWrapping="Wrap" Text="{Binding  Сounterparty_NameСh}" VerticalAlignment="Top" Width="301" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Foreground="#B2000000" Cursor="Arrow">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock Foreground="#B26D6D6D" Width="131">Например, Васильев</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <TextBlock HorizontalAlignment="Left" Margin="40,184,0,0" TextWrapping="Wrap" Text="Комментарий" VerticalAlignment="Top" FontSize="14" FontFamily="Yu Gothic UI Semibold"/>
+                    <TextBox MaxLength="200" Name="Comment2" HorizontalAlignment="Left" Height="113" Margin="181,184,0,0" TextWrapping="Wrap" Text="{Binding Сounterparty_CommentCh}" VerticalAlignment="Top" Width="301" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="{DynamicResource PrimaryBlue}">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Дайте краткое описание контрагенту, если это необходимо</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <Button Content="Редактировать"  Command="{Binding ChangeNewCounterParty}" HorizontalAlignment="Left" Margin="340,342,0,0" VerticalAlignment="Top" Width="142" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+
+                                <Style.Triggers>
+
+                                    <MultiDataTrigger>
+
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding Path=(Validation.HasError), ElementName=FirstInput}" Value="False"/>
+                                        </MultiDataTrigger.Conditions>
+
+                                        <Setter Property="IsEnabled" Value="True"/>
+
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=Name2, Path=Text.Length}" Value="0" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Binding="{Binding ElementName=Comment2, Path=Text.Length}" Value="0" />
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </MultiDataTrigger>
+
+                                </Style.Triggers>
+                            </Style>
+
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Отменить" Command="{Binding btncloseCOunterPartySecondMenu}" Cursor="Hand" HorizontalAlignment="Center"  Margin="0,342,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+                </Grid>
+            </Border>
+
+
+        </Grid>
+
+
+
+
+    </Grid>
+</Page>

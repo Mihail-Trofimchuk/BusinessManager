@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BusinessManager.Model.Entrance">
+    <Position X="1.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAEAAAAAAAABIAAIAAAAAiBAAAAAAIAIAAAABAEEwA=</HashCode>
+      <FileName>Model\Entrance.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AccountEntrance" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BusinessManager.Model.LegalEntity" Collapsed="true">
+    <Position X="8.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAAAAAAAAAAAAgAAAAAEAEAAAAAAAIAAQA=</HashCode>
+      <FileName>Model\LegalEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusinessManager.Model.Messages" Collapsed="true">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAgQAAAAAAgAAAAAAAAABRA=</HashCode>
+      <FileName>Model\Messages.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusinessManager.Model.Account" Collapsed="true">
+    <Position X="5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAQAABAAAAIAAAAAAAAgAACAAEAAQAQAAABAAAQA=</HashCode>
+      <FileName>Model\Account.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

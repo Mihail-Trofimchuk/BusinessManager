@@ -1,0 +1,568 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:BusinessManager.Views.Pages"
+      xmlns:modelview="clr-namespace:BusinessManager.ViewModel"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:conv="clr-namespace:BusinessManager.Converter" xmlns:jas="clr-namespace:BusinessManager.Model" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+    x:Class="BusinessManager.Views.Pages.HomePage"
+      mc:Ignorable="d"
+      Name="OperationPage"
+      Title="HomePage"  d:DesignHeight="450" d:DesignWidth="800">
+
+
+
+    <Page.Resources>
+        <conv:Converter x:Key="ConverterStyle">
+        </conv:Converter>
+    </Page.Resources>
+
+    <Page.DataContext>
+        <modelview:OperationViewModel/>
+    </Page.DataContext>
+    <Grid  Background="#f9f9f9" Margin="0,0,-0.286,0.143" Width="Auto"  >
+        <TextBlock Margin="241,0,348,9" TextWrapping="Wrap" Text="Количество поступлений:" VerticalAlignment="Bottom" Height="30" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#7F000000"/>
+        <ListView  Name="EntranceList" MaxHeight="400" ItemsSource="{Binding AllEntranceById, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedEntrance,UpdateSourceTrigger=PropertyChanged}"  Background="Transparent"  Margin="241,64,10,323" BorderBrush="{DynamicResource PrimaryBlueColor}" Foreground="{DynamicResource PrimaryBlue}" SelectedIndex="0" >
+            <ListView.ContextMenu>
+                <ContextMenu  Background="White" >
+                    <!-- Редактирование  -->
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding ChangeEntrance}"     Header="Редактировать" Foreground="{DynamicResource PrimaryBlue}" />
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding DeleteEntrance}"     Header="Удалить" Foreground="{DynamicResource PrimaryBlue}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="ListItemHoverFill" Color="LightBlue"/>
+                    </Style.Resources>
+                    <Setter Property="Height" Value="50" />
+
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border CornerRadius="0" SnapsToDevicePixels="True"  
+                              BorderThickness="0,-1,0,1"   
+                              BorderBrush="#dcdbd5"   
+                              Background="{TemplateBinding Background}">
+                                    <Border Name="InnerBorder" CornerRadius="0" BorderThickness="0">
+                                        <Grid>
+                                            <Rectangle Name="UpperHighlight" Visibility="Collapsed" Fill="Transparent" />
+                                            <GridViewRowPresenter Grid.RowSpan="0"   
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"   
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected"  Value="True" >
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn  DisplayMemberBinding="{Binding Path=AccountEntrance.Account_Name}">Счет</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Entrance_article}">Статья</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=CounterpartyEntrance.Сounterparty_Name}" >Контрагент</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProjectEntrance.Projects_Name}" >Проект</GridViewColumn>
+
+                    <!--<GridViewColumn DisplayMemberBinding="{Binding Path=Entrance_Sum}" >Сумма</GridViewColumn>-->
+                    <GridViewColumn Header="Сумма" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Name="GradeText" Text="{Binding Entrance_Sum,StringFormat=\{0\}$}" Foreground="Green"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Entrance_Day, StringFormat='dd-MM-yyyy'}" >Дата</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=EntrancePurpose}" >Комментарий</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView Name="PaymentP" ItemsSource="{Binding AllPaymentById, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedPayment,UpdateSourceTrigger=PropertyChanged}" MaxHeight="700" Background="Transparent"  Margin="241,0,10,83" BorderBrush="{DynamicResource PrimaryBlueColor}" Foreground="{DynamicResource PrimaryBlue}" SelectedIndex="0" Height="240" VerticalAlignment="Bottom" >
+            <ListView.ContextMenu>
+                <ContextMenu  Background="White" >
+
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding ChangePayment}"     Header="Редактировать" Foreground="{DynamicResource PrimaryBlue}" />
+                    <MenuItem Style="{StaticResource MenuItemStyle}" Command="{Binding DeletePayment}"     Header="Удалить" Foreground="{DynamicResource PrimaryBlue}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="ListItemHoverFill" Color="LightBlue"/>
+                    </Style.Resources>
+                    <Setter Property="Height" Value="50" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    <Setter Property="Template">
+
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListViewItem}">
+                                <Border CornerRadius="0" SnapsToDevicePixels="True"  
+                              BorderThickness="0,-1,0,1"   
+                              BorderBrush="#dcdbd5"   
+                              Background="{TemplateBinding Background}">
+                                    <Border Name="InnerBorder" CornerRadius="0" BorderThickness="0">
+                                        <Grid>
+                                            <Rectangle Name="UpperHighlight" Visibility="Collapsed" Fill="Transparent" />
+                                            <GridViewRowPresenter Grid.RowSpan="0"   
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"   
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected"  Value="True" >
+                                        <Setter Property="Background" Value="{DynamicResource PrimaryBlueSelectItem}" />
+                                        <Setter Property="BorderBrush" Value="Transparent" />
+                                        <Setter TargetName="UpperHighlight" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <ListView.View>
+
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=AccountPayment.Account_Name}">Счет</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Payment_article}">Статья</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=CounterpartyPayment.Сounterparty_Name}" >Контрагент</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProjectPayment.Projects_Name}" >Проект</GridViewColumn>
+                    <GridViewColumn Header="Сумма" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Name="GradeText" Text="{Binding Payment_Sum,StringFormat=-\{0\}$}" Foreground="Red"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Payment_Day,StringFormat='dd-MM-yyyy'}" >Дата</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=PaymentPurpose}" >Комментарий</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Margin="0,0,-580.714,-0.286" HorizontalAlignment="Left" Width="799">
+            <Grid Margin="223,10,10,0" Width="Auto" Height="41" VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="0,10,285.571,411.143" TextWrapping="Wrap" Text="TextBlock" HorizontalAlignment="Right" Width="88"/>
+                <Button Name="OperationMenu" Content="Создать" HorizontalAlignment="Left" Margin="171,0,0,0" VerticalAlignment="Center" Width="146" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Command="{Binding Btn_createoperation}" Height="30"/>
+            </Grid>
+
+            <Border MaxWidth="800" CornerRadius="5" Background="#05230063" Margin="0,0,0,0.286" HorizontalAlignment="Left" Width="218">
+
+                <Grid Margin="0,0,0.286,-0.286">
+
+                    <TextBlock HorizontalAlignment="Left" Margin="20,22,0,0" TextWrapping="Wrap" Text="Фильтры" VerticalAlignment="Top" Height="27" Width="84" FontFamily="Yu Gothic UI Semibold" FontSize="18"/>
+
+                    <TextBlock HorizontalAlignment="Left" Margin="21,107,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="127" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878"><Run Text="Статья"/><LineBreak/><Run/></TextBlock>
+                    <TextBlock HorizontalAlignment="Left" Margin="19,278,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="26" Width="175" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878"><Run Text="Статья"/><LineBreak/><Run/></TextBlock>
+
+
+                    <TextBlock HorizontalAlignment="Center" Margin="0,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="175" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878"><Run Text="Параметры "/><Run Language="ru-ru" Text="доходов"/></TextBlock>
+                    <DatePicker SelectedDate="{Binding EntranceDate}" Focusable="False" Margin="22,184,36,0" VerticalAlignment="Top" Background="#00000000" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="242,18,-141,0" TextWrapping="Wrap" Text="Операции" VerticalAlignment="Top" Height="27" Width="117" FontFamily="Yu Gothic UI Semibold" FontSize="22"/>
+                    <TextBox  HorizontalAlignment="Left" Height="25" Margin="21,139,0,0" TextWrapping="Wrap"   Text="{Binding EntranceSearch, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="158" FontFamily="Yu Gothic UI Semibold" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Background="{x:Null}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="#71000000" Cursor="Arrow">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock Foreground="#B26D6D6D" Width="131">Название статьи</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <TextBox HorizontalAlignment="Left" Height="25" Margin="20,309,0,0" TextWrapping="Wrap"   Text="{Binding  PaymentSearch, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="161" FontFamily="Yu Gothic UI Semibold" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" Background="{x:Null}" BorderBrush="{DynamicResource PrimaryBlue}" Foreground="#71000000">
+                        <materialDesign:HintAssist.Hint>
+                            <TextBlock Foreground="#B26D6D6D" Width="131">Название статьи</TextBlock>
+                        </materialDesign:HintAssist.Hint>
+                    </TextBox>
+                    <DatePicker SelectedDate="{Binding PaymenteDate}" Focusable="False" Margin="22,359,36,0" VerticalAlignment="Top" Background="#00000000" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                    <TextBlock HorizontalAlignment="Center" Margin="0,246,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="176" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#FF787878"><Run Text="Параметры "/><Run Language="ru-ru" Text="расходов"/></TextBlock>
+
+                </Grid>
+
+            </Border>
+            <TextBlock Name="CountofEntrance" Margin="461,0,293,19" TextWrapping="Wrap" Text="{Binding AllEntranceById.Count,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Height="30" FontFamily="Yu Gothic UI Semibold" FontSize="25" Foreground="{DynamicResource PrimaryBlue}"/>
+            <TextBlock Margin="544,0,93,16" TextWrapping="Wrap" Text="Количество выплат:" VerticalAlignment="Bottom" Height="23" FontFamily="Yu Gothic UI Semibold" FontSize="16" Foreground="#7F000000"/>
+            <TextBlock Name="CountofPayment" Margin="721,0,38,19" TextWrapping="Wrap" Text="{Binding AllPaymentById.Count, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom" Height="30" FontFamily="Yu Gothic UI Semibold" FontSize="25" Foreground="{DynamicResource PrimaryBlue}"/>
+
+        </Grid>
+        <!-- Окно добавление операции -->
+        <Grid Background="White" Name="OperationMenuNav"  Visibility="Hidden" HorizontalAlignment="Left" Width="465">
+            <TextBlock HorizontalAlignment="Left" Margin="45,10,0,0" TextWrapping="Wrap" Text="Создание операции" VerticalAlignment="Top" FontSize="22"/>
+
+            <Grid Background="White"  Name="OperationMenuNavEntrance" Margin="0,87,0,0" >
+                <TextBlock HorizontalAlignment="Left" Margin="35,36,0,0" TextWrapping="Wrap" Text="Дата Поступления" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <DatePicker  Focusable="False" SelectedDate="{Binding  Entrance_Day}"  HorizontalAlignment="Left" Margin="192,32,0,0" VerticalAlignment="Top" Width="173" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="35,89,0,0" TextWrapping="Wrap" Text="Счет" VerticalAlignment="Top" RenderTransformOrigin="0.59,0.009" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="AccountComboBox" ItemsSource="{Binding AllAccountById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Account_Name"
+                      SelectedItem="{Binding OperationAccountEntrance}"
+                      HorizontalAlignment="Left" Margin="138,80,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,131,0,0" TextWrapping="Wrap" Text="Сумма" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="15" Name="Entrance_Sum" HorizontalAlignment="Left" Height="23" Margin="138,124,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Foreground="Black" SelectionBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <Binding Path="Entrance_Sum" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <jas:InputValidationRule  
+                             ErrorMessage="Введите сумму"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"  />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">0</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,187,0,0" TextWrapping="Wrap" Text="Контрагент" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="CounterpartyComboBox" ItemsSource="{Binding  AllCounterpartyById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Сounterparty_Name"
+                      SelectedItem="{Binding OperationCounterpartyEntrance}" 
+                      HorizontalAlignment="Left" Margin="138,178,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,247,0,0" TextWrapping="Wrap" Text="Статья" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox ItemsSource="{Binding EntranceArticles}" DisplayMemberPath="ArticleTitle" Name="Article" SelectedItem="{Binding EntranceArticle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                          HorizontalAlignment="Left" Margin="138,238,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,297,0,0" TextWrapping="Wrap" Text="Проект" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ProjectCombobox" ItemsSource="{Binding  AllProjectsById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Projects_Name"
+                      SelectedItem="{Binding OperationProjectEntrance}" HorizontalAlignment="Left" Margin="138,288,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,358,0,0" TextWrapping="Wrap" Text="Назначение платежа" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="100" Name="Entrance_Comment" HorizontalAlignment="Left" Height="46" Margin="165,354,0,0" TextWrapping="Wrap" Text="{Binding Entrance_Comment}" VerticalAlignment="Top" Width="269" Foreground="#7F000000" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Arrow">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Ваши заметки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <Button Content="Создать" Command="{Binding AddNewEntrance}" CommandParameter="{Binding ElementName=OperationPage}" HorizontalAlignment="Left" Margin="322,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Entrance_Sum}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Entrance_Comment, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Entrance_Sum, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Отменить" Command="{Binding btncloseOperationMenu}" Cursor="Hand" HorizontalAlignment="Left" Margin="192,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+            </Grid>
+
+
+            <Grid Name="OperationMenuNavPayment" Visibility="Hidden" Background="White" Margin="0,87,0,0">
+                <TextBlock HorizontalAlignment="Left" Margin="35,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"><Run Text="Дата "/><Run Language="ru-ru" Text="Выплаты"/></TextBlock>
+                <DatePicker Focusable="False"   SelectedDate="{Binding Payment_Day}" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="165" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,89,0,0" TextWrapping="Wrap" Text="Счет" VerticalAlignment="Top" RenderTransformOrigin="0.59,0.009" FontFamily="Yu Gothic UI Semibold"/>
+
+                <ComboBox Name="AccountPe" ItemsSource="{Binding AllAccountById, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Account_Name"
+                      SelectedItem="{Binding OperationAccountPayment }"
+                      HorizontalAlignment="Left" Margin="138,80,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="35,131,0,0" TextWrapping="Wrap" Text="Сумма" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="15" Name="Payment_Sum" HorizontalAlignment="Left" Height="23" Margin="138,124,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Foreground="Black" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <Binding Path="Payment_Sum" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <jas:InputValidationRule  
+                             ErrorMessage="Введите сумму"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"  />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">0</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,187,0,0" TextWrapping="Wrap" Text="Контрагент" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="CountrpartyPe" ItemsSource="{Binding  AllCounterpartyById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Сounterparty_Name"
+                      SelectedItem="{Binding OperationCounterpartyPayment}"  
+                      HorizontalAlignment="Left" Margin="138,178,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,247,0,0" TextWrapping="Wrap" Text="Статья" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ArticlePList" ItemsSource="{Binding PaymentArticles}" DisplayMemberPath="ArticleTitle" SelectedItem="{Binding PaymentArticle,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="138,238,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="35,297,0,0" TextWrapping="Wrap" Text="Проект" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ProjectPe" ItemsSource="{Binding  AllProjectsById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Projects_Name"
+                      SelectedItem="{Binding OperationProjectPayment}"
+                      HorizontalAlignment="Left" Margin="138,288,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,358,0,0" TextWrapping="Wrap" Text="Назначение платежа" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="100" Name="Payment_Comment" HorizontalAlignment="Left" Height="46" Margin="171,354,0,0" TextWrapping="Wrap" Text="{Binding Payment_Comment}" VerticalAlignment="Top" Width="263" Foreground="#7F000000" FontFamily="Yu Gothic UI Semibold" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Ваши заметки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <Button Content="Создать" Command="{Binding AddNewPayment}" CommandParameter="{Binding ElementName=OperationPage}" HorizontalAlignment="Left" Margin="322,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+
+                    <Button.Style>
+
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+
+                            <Style.Triggers>
+
+                                <MultiDataTrigger>
+
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Payment_Sum}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+
+                                    <Setter Property="IsEnabled" Value="False"/>
+
+                                </MultiDataTrigger>
+
+
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Payment_Sum, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Payment_Comment, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Отменить" Command="{Binding btncloseOperationMenu}" Cursor="Hand" HorizontalAlignment="Left" Margin="192,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+
+            </Grid>
+            <Button Command="{Binding EntrancMenu}" CommandParameter="{Binding ElementName=OperationPage}" Content="Поступления" HorizontalAlignment="Left" Margin="45,55,0,0" VerticalAlignment="Top" Width="183" Background="#FF71AE65" BorderBrush="#FF4ED632"/>
+            <Button Command="{Binding PaymentMenu}" CommandParameter="{Binding ElementName=OperationPage}" Content="Выплаты" HorizontalAlignment="Left" Margin="246,55,0,0" VerticalAlignment="Top" Width="181" Background="#FFEF9474" BorderBrush="#FFEF9474"/>
+            <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Command="{Binding btncloseOperationMenu}"  Tag="IsCloseButton" Margin="430,10,10,0" Height="25" VerticalAlignment="Top"/>
+            <!--<Frame Name="OperationMenuNavigation" NavigationUIVisibility="Hidden" HorizontalAlignment="Left"  Width="540" Background="Transparent"/>-->
+        </Grid>
+
+        <!-- Редактирование операции -->
+        <Grid Background="White" Name="OperationMenuNavEdit"  Visibility="Hidden" HorizontalAlignment="Left" Width="465">
+
+            <TextBlock Text="Редактирование операции" Margin="37,17,171,400" FontSize="20"/>
+
+            <!-- Редактирование поступления -->
+            <Grid Background="White" Visibility="Hidden" Name="OperationMenuNavEntranceEdit" Margin="0,44,0,0" >
+                <TextBlock HorizontalAlignment="Left" Margin="35,36,0,0" TextWrapping="Wrap" Text="Дата Поступления" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <DatePicker  Focusable="False" SelectedDate="{Binding  Entrance_DayEd}"  HorizontalAlignment="Left" Margin="192,32,0,0" VerticalAlignment="Top" Width="173" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,89,0,0" TextWrapping="Wrap" Text="Счет" VerticalAlignment="Top" RenderTransformOrigin="0.59,0.009" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="AccountComboBoxEdit" ItemsSource="{Binding AllAccountById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Account_Name"
+                      SelectedItem="{Binding OperationAccountEntranceEd}"
+                      HorizontalAlignment="Left" Margin="138,80,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,131,0,0" TextWrapping="Wrap" Text="Сумма" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="15" Name="Entrance_SumEdit" HorizontalAlignment="Left" Height="23" Margin="138,124,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Foreground="Black" SelectionBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <Binding Path="Entrance_SumEd" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <jas:InputValidationRule  
+                             ErrorMessage="Введите сумму"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"  />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">0</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,187,0,0" TextWrapping="Wrap" Text="Контрагент" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="CounterpartyComboBoxEdit" ItemsSource="{Binding  AllCounterpartyById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Сounterparty_Name"
+                      SelectedItem="{Binding OperationCounterpartyEntranceEd}" 
+                      HorizontalAlignment="Left" Margin="138,178,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,247,0,0" TextWrapping="Wrap" Text="Статья" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox ItemsSource="{Binding EntranceArticles}" DisplayMemberPath="ArticleTitle" Name="ArticleEdit" SelectedItem="{Binding EntranceArticleEd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                          HorizontalAlignment="Left" Margin="138,238,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                </ComboBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,297,0,0" TextWrapping="Wrap" Text="Проект" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ProjectComboboxEdit" ItemsSource="{Binding  AllProjectsById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Projects_Name"
+                      SelectedItem="{Binding OperationProjectEntranceEd}" HorizontalAlignment="Left" Margin="138,288,0,0" VerticalAlignment="Top" Width="296" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,358,0,0" TextWrapping="Wrap" Text="Назначение платежа" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="100" Name="Entrance_CommentEdit" HorizontalAlignment="Left" Height="46" Margin="165,354,0,0" TextWrapping="Wrap" Text="{Binding Entrance_CommentEd}" VerticalAlignment="Top" Width="269" Foreground="#7F000000" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Arrow">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Ваши заметки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <Button Content="Редактировать" Command="{Binding ChangeNewEntrance}" CommandParameter="{Binding ElementName=OperationPage}" HorizontalAlignment="Left" Margin="304,425,0,0" VerticalAlignment="Top" Width="130" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Entrance_SumEdit}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Entrance_CommentEdit, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Entrance_SumEdit, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Отменить" Command="{Binding CloseEditEntrance}" Cursor="Hand" HorizontalAlignment="Left" Margin="174,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+            </Grid>
+            <!--Конец блока редактирования поступления-->
+
+            <!-- Редактирование выплаты -->
+            <Grid Name="OperationMenuNavPaymentEdit" Visibility="Hidden" Background="White" Margin="0,44,0,44">
+                <TextBlock HorizontalAlignment="Left" Margin="35,36,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"><Run Text="Дата "/><Run Language="ru-ru" Text="Выплаты"/></TextBlock>
+                <DatePicker Focusable="False"   SelectedDate="{Binding Payment_DayEd}" HorizontalAlignment="Center" Margin="0,32,0,0" VerticalAlignment="Top" Width="165" Foreground="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,89,0,0" TextWrapping="Wrap" Text="Счет" VerticalAlignment="Top" RenderTransformOrigin="0.59,0.009" FontFamily="Yu Gothic UI Semibold"/>
+
+                <ComboBox Name="AccountPeEdit" ItemsSource="{Binding AllAccountById, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Account_Name"
+                      SelectedItem="{Binding OperationAccountPaymentEd}"
+                      HorizontalAlignment="Left" Margin="138,80,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="35,131,0,0" TextWrapping="Wrap" Text="Сумма" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="15" Name="Payment_SumEdit" HorizontalAlignment="Left" Height="23" Margin="138,124,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Foreground="Black" CaretBrush="{DynamicResource PrimaryBlue}" SelectionBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <Binding Path="Payment_SumEd" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <jas:InputValidationRule  
+                             ErrorMessage="Введите сумму"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewTextInput" >
+                            <ei:CallMethodAction TargetObject="{Binding}" MethodName="NumberValidationTextBox"  />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">0</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <TextBlock HorizontalAlignment="Left" Margin="35,187,0,0" TextWrapping="Wrap" Text="Контрагент" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="CountrpartyPeEdit" ItemsSource="{Binding  AllCounterpartyById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Сounterparty_Name"
+                      SelectedItem="{Binding OperationCounterpartyPaymentEd}"  
+                      HorizontalAlignment="Left" Margin="138,178,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,247,0,0" TextWrapping="Wrap" Text="Статья" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ArticlePListEdit" ItemsSource="{Binding PaymentArticles}" DisplayMemberPath="ArticleTitle" SelectedItem="{Binding PaymentArticleEd,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="138,238,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+
+                <TextBlock HorizontalAlignment="Left" Margin="35,297,0,0" TextWrapping="Wrap" Text="Проект" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <ComboBox Name="ProjectPeEdit" ItemsSource="{Binding  AllProjectsById, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      DisplayMemberPath="Projects_Name"
+                      SelectedItem="{Binding OperationProjectPaymentEd}"
+                      HorizontalAlignment="Left" Margin="138,288,0,0" VerticalAlignment="Top" Width="296" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                <TextBlock HorizontalAlignment="Left" Margin="35,358,0,0" TextWrapping="Wrap" Text="Назначение платежа" VerticalAlignment="Top" FontFamily="Yu Gothic UI Semibold"/>
+                <TextBox MaxLength="100" Name="Payment_CommentEdit" HorizontalAlignment="Left" Height="46" Margin="171,354,0,0" TextWrapping="Wrap" Text="{Binding Payment_CommentEd}" VerticalAlignment="Top" Width="263" Foreground="#7F000000" FontFamily="Yu Gothic UI Semibold" SelectionBrush="{DynamicResource PrimaryBlue}" CaretBrush="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}">
+                    <materialDesign:HintAssist.Hint>
+                        <TextBlock TextWrapping="Wrap" Foreground="#B26D6D6D" Width="283" Height="37">Ваши заметки</TextBlock>
+                    </materialDesign:HintAssist.Hint>
+                </TextBox>
+                <Button Content="Редактировать" Command="{Binding ChangeNewPayment}" CommandParameter="{Binding ElementName=OperationPage}" HorizontalAlignment="Left" Margin="302,425,0,0" VerticalAlignment="Top" Width="132" Height="33" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Cursor="Hand">
+
+                    <Button.Style>
+
+                        <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+
+                            <Style.Triggers>
+
+                                <MultiDataTrigger>
+
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Path=(Validation.HasError), ElementName=Payment_SumEdit}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Payment_SumEdit, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=Payment_CommentEdit, Path=Text.Length}" Value="0" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Content="Отменить" Command="{Binding CloseEditPayment}" CommandParameter="{Binding ElementName=OperationPage}" Cursor="Hand" HorizontalAlignment="Left" Margin="161,425,0,0" VerticalAlignment="Top" Width="112" Height="33" Background="White" BorderBrush="{DynamicResource PrimaryBlue}" FontFamily="Yu Gothic UI Semibold" Foreground="{DynamicResource PrimaryBlue}" />
+            </Grid>
+            <!-- Конец блока редактирования выплат -->
+            <Button  Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Command="{Binding CloseEditPayment}"   Tag="IsCloseButton" Margin="0,19,17,0" Height="25" VerticalAlignment="Top" HorizontalAlignment="Right" Width="25"/>
+        </Grid>
+
+
+        <!-- Модальное окно -->
+        <Grid Visibility="Hidden" Name="OperationModal"  Background="#33000000" MouseDown="AccountModal_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="73*"/>
+                <RowDefinition Height="77*"/>
+            </Grid.RowDefinitions>
+            <Border  Width="0" Height="170" Name="ModelBorder" MaxWidth="400" MaxHeight="250" CornerRadius="5" Background="White" Margin="255,146,254,146" Grid.RowSpan="2">
+                <Grid>
+                    <Button Command="{Binding CloseModal}"  CommandParameter="{Binding ElementName=OperationPage}" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="0,5,5,0" Width="32" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top"/>
+                    <TextBlock Text="Не все данные заполнены!" TextAlignment="Center" TextWrapping="Wrap" Margin="34,63,34,67" FontSize="20"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <!-- Конец блока с модальным окном -->
+
+    </Grid>
+</Page>

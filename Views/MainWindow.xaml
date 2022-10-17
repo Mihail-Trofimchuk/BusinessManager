@@ -1,0 +1,224 @@
+﻿<Window x:Class="BusinessManager.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:BusinessManager.Views"
+       
+        xmlns:modelview="clr-namespace:BusinessManager.ViewModel"
+        mc:Ignorable="d" Name="Home"
+        Title="MainWindow" Height="650" Width="1000"
+        WindowStartupLocation="CenterScreen" WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        Background="Transparent" AllowsTransparency="True"
+        ResizeMode="NoResize" WindowState="Normal">
+    <Window.DataContext>
+        <modelview:MainApplicationViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+
+    </Window.Resources>
+
+    <Grid Background="Transparent">
+
+        <Border CornerRadius="8" Background="{DynamicResource PrimaryBackgroundColor}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <!-- Start: GridColum Left-->
+            <Border CornerRadius="8 0 0 8" Background="{DynamicResource SecundaryBackgroundColor}">
+                <Grid x:Name="gridMenu" Width="60">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="80"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Logo -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Top">
+                        <Path   Data="{DynamicResource logo}" Margin="16 0 0 0" Stretch="Fill" Fill="{DynamicResource PrimaryBlue}" Width="25" Height="25" HorizontalAlignment="Left"/>
+                        <Label Content="Money Flow" Foreground="{DynamicResource PrimaryBlue}" FontWeight="Bold" FontSize="20" VerticalAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Margin="14 0 0 0"/>
+                    </StackPanel>
+
+                    <!-- Menu -->
+                    <ToggleButton x:Name="btnMenu" BorderThickness="0" Background="Transparent" VerticalAlignment="Center" Style="{StaticResource MenuIconStyle}" Margin="15,0,0,0" HorizontalAlignment="Left" Width="30" Cursor="Hand">
+                        <ToggleButton.Triggers>
+                            <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="HideStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="200" To="60" Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                            <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                <BeginStoryboard>
+                                    <Storyboard x:Name="ShowStackPanel">
+                                        <DoubleAnimation Storyboard.TargetName="gridMenu" Storyboard.TargetProperty="Width" BeginTime="0:0:0" From="60" To="200" Duration="0:0:0.3">
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ToggleButton.Triggers>
+                    </ToggleButton>
+
+                    <StackPanel Grid.Row="3">
+                        <RadioButton x:Name="rdHome" IsChecked="True"  Content="Показатели" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource home}" Command="{Binding bNotesPage_Click}"/>
+                        <RadioButton x:Name="rdSounds" Content="Операции" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource headphones}" Margin="0 5 0 5" Command="{Binding bHomePage_Click}" Cursor="Hand" />
+                        <RadioButton x:Name="rdNotes" Content="Счета" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource notes}" Command="{Binding bPaymentPage_Click}" Cursor="Hand"/>
+                        <RadioButton x:Name="rdPayment" Content="Проекты" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource payment}" Margin="0 5 0 5" Command="{Binding bSoundsPage_Click}"/>
+                        <RadioButton x:Name="rdConterpaty" Content="Контрагенты" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource conterpaty}" Margin="0 5 0 5" Command="{Binding bConterpaty_Click}" CommandParameter="{Binding ElementName=Home}"  Cursor="Hand"/>
+                    </StackPanel>
+
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,0,0,15" Height="45" VerticalAlignment="Bottom">
+                        <RadioButton Content=" Выход" x:Name="rdPaymen" Style="{DynamicResource MenuRadioButtonStyle}" Tag="{DynamicResource exit}" Command="{Binding btnClose_ClickAndOpen}" CommandParameter="{Binding ElementName=Home}" Width="218" Cursor="Hand" Height="45" />
+                        <!--<Ellipse Width="40" Height="40" Margin="10 0 0 0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="Assets/Avatars/avatar-2.jpg"/>
+                            </Ellipse.Fill>
+                        </Ellipse>-->
+
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!-- End: GridColum Left-->
+
+            <!-- Start: GridColumn Rigth -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="60"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+
+
+                <!-- Start: Button Close | Restore | Minimize -->
+                <StackPanel Grid.Row="0" Grid.Column="4" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,5,10,0" Height="30" Orientation="Horizontal" FlowDirection="RightToLeft">
+                    <Button x:Name="btnClose" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Command="{Binding btnClose_Click}"  CommandParameter="{Binding ElementName=Home}"  Tag="IsCloseButton"/>
+
+                    <Button x:Name="btnRestore" Margin="5,0" Command="{Binding btnRestore_Click}" CommandParameter="{Binding ElementName=Home}" Cursor="Hand" >
+                        <Button.Style>
+                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonsStyle}">
+                                <Setter Property="Content" Value="{DynamicResource maximize}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=Home, Path=WindowState}" Value="Maximized">
+                                        <Setter Property="Content" Value="{DynamicResource restore}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button x:Name="btnMinimize" Style="{DynamicResource IconButtonsStyle}" Content="{DynamicResource minimize}" Command="{Binding btnMinimize_Click}" CommandParameter="{Binding ElementName=Home}" />
+                </StackPanel>
+                <!-- End: Button Close | Restore | Minimize -->
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="0,0,0,10.286" Grid.Row="1">
+                        <Border Grid.Row="1" Margin="10">
+                            <Frame Name="PagesNavigation" Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"/>
+                        </Border>
+                    <!--<Grid Grid.Row='1'>
+                    <Frame x:Name="pidor" Content="{Binding Pagess}"/>
+                </Grid>-->
+                </ScrollViewer>
+
+
+
+
+                <Label Name="UserEmail"  Content="{Binding User_Email}" Foreground="{DynamicResource PrimaryGrayColor}" FontSize="11" FontWeight="Regular" HorizontalContentAlignment="Left" HorizontalAlignment="Right" Margin="0,35,145,0" Width="132"/>
+
+                <materialDesign:PopupBox PlacementMode="BottomAndAlignRightEdges" StaysOpen="False"  Margin="0,0,140,20" HorizontalAlignment="Right" Width="34">
+
+                    <StackPanel Width="170" >
+                        <RadioButton Style="{DynamicResource MenuRadioButtonStyle}" Margin="-25,0,0,0"  Command="{Binding bRatesPage_Click}" Content="Тарифы и оплат" />
+                        <RadioButton Style="{DynamicResource MenuRadioButtonStyle}" Margin="-25,0,0,0" Command="{Binding bUserAgreementPage_Click}" Content="Соглашение"/>
+                        <RadioButton Style="{DynamicResource MenuRadioButtonStyle}" Margin="-25,0,0,0" Command="{Binding bHelpPage_Click}" Content="Помощь"/>
+                        <RadioButton Style="{DynamicResource MenuRadioButtonStyle}" Margin="-25,0,0,0" Command="{Binding bSettingsPage_Click}" Content="Настройки"/>
+                        <Separator/>
+                        <RadioButton Style="{DynamicResource MenuRadioButtonStyle}" Margin="-25,0,0,0"  Content="Выйти" Command="{Binding btnClose_ClickAndOpen}" CommandParameter="{Binding ElementName=Home}" />
+                    </StackPanel>
+                    <!--Click="Button_Click_2"-->
+                </materialDesign:PopupBox>
+                <Button Content="Тарифы и оплата" HorizontalAlignment="Left" Margin="24,18,0,0" VerticalAlignment="Top" Width="175" Background="{DynamicResource PrimaryBlue}" BorderBrush="{DynamicResource PrimaryBlue}" Command="{Binding bRatesPage_Click}"  FontFamily="Yu Gothic UI Semibold" Cursor="Hand"/>
+                <TextBlock Name="UserName" Text="{Binding UserName}" Foreground="{DynamicResource TextPrimaryColor}" FontSize="14" FontWeight="SemiBold"  Margin="0,9,175,25" HorizontalAlignment="Right" Width="95"/>
+                <Label HorizontalAlignment="Left" Margin="265,18,0,0"  Content="{Binding CurrentDate, StringFormat={}{{0}:dd.MM.yy   HH:mm} }" VerticalAlignment="Top" Height="35" Width="147" FontSize="14" FontWeight="Bold" FontFamily="Yu Gothic UI Semibold"/>
+                <!--<TextBlock  Name="TotalCount" HorizontalAlignment="Left" Margin="485,20,0,0"  Text="{Binding Total_Count, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Height="22" Width="77" FontSize="14"/>-->
+                <Ellipse HorizontalAlignment="Left" Height="8" Margin="243,0,0,0" VerticalAlignment="Center" Width="8" Fill="#FF54BC29"/>
+            </Grid>
+            <!-- Start: GridColumn Rigth -->
+            <materialDesign:Card
+                x:Name="MessageShadow"
+                Visibility="Hidden"
+                UniformCornerRadius="5"
+  materialDesign:ShadowAssist.ShadowDepth="Depth5"
+  Padding="32"
+  Content="DEPTH 4" Margin="0,0,39,100" Grid.Column="1" HorizontalAlignment="Right" Width="316" Height="353" VerticalAlignment="Bottom" />
+            <Border Visibility="Hidden" Name="MessageBorder" Background="{DynamicResource PrimaryBlue}" CornerRadius="10" Margin="0,0,39,100" Grid.Column="1" HorizontalAlignment="Right" Width="317" Height="353" VerticalAlignment="Bottom">
+                <Grid Background="Transparent" Margin="4,2,4,1">
+                    <Button  Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}" Command="{Binding CloseMessages}"  CommandParameter="{Binding ElementName=Home}"  Tag="IsCloseButton" Margin="274,10,10,315" Cursor="Hand" />
+                    <TextBlock  Text="Оставьте сообщение" Margin="70,10,62,312" Foreground="White" FontSize="18"/>
+                    <Border CornerRadius="10" Background="White" Margin="-5,43,-5,-3">
+                        <Grid  Margin="10,10,10,10">
+                            <TextBlock Text="Тема сообщения" Margin="0,10,0,245" FontSize="16"></TextBlock>
+                            <TextBox Name="Text" Text="{Binding Title}" MaxLength="50" Margin="0,45,0,200" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                            <TextBlock Margin="0,110,0,145" FontSize="16"><Run Language="ru-ru" Text="Ваш вопрос"/><Run Text="?"/></TextBlock>
+                            <TextBox Name="Message" Text="{Binding Message,UpdateSourceTrigger=PropertyChanged}" MaxLength="200" Margin="0,145,0,51" Cursor="Arrow" BorderBrush="{DynamicResource PrimaryBlue}"/>
+                        </Grid>
+                    </Border>
+                    <Button
+                        Command="{Binding SendMessage}" CommandParameter="{Binding ElementName=Home}"
+                        Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                        ToolTip="Resource name: MaterialDesignPaperSecondaryLightButton"
+                        Content="Отправить"
+                        IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Margin="170,310,13,0" Height="32" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.492,0.5" Cursor="Hand" >
+                       </Button>
+                    
+                </Grid>
+            </Border>
+
+            <Button
+                  
+                Command="{Binding OpenMessageBox}"
+                CommandParameter="{Binding ElementName=Home}"
+  Background="{DynamicResource PrimaryBlue}"
+  Style="{StaticResource MaterialDesignFloatingActionButton}"
+             
+  materialDesign:ButtonProgressAssist.IsIndicatorVisible="True"
+  materialDesign:ButtonProgressAssist.Value="-1"
+  materialDesign:ButtonProgressAssist.IsIndeterminate="True"
+  Content="{materialDesign:PackIcon  MessageProcessingOutline}"
+  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}" Grid.Column="1" Margin="0,0,39,42" Height="46" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="46" Cursor="Hand" />
+
+
+
+        </Grid>
+    </Border>
+        <Grid Visibility="Hidden" Name="MainModal"  Background="#33000000" MouseDown="AccountModal_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="73*"/>
+                <RowDefinition Height="77*"/>
+            </Grid.RowDefinitions>
+            <Border  Width="0" Height="170" Name="ModelBorder" MaxWidth="400" MaxHeight="250" CornerRadius="5" Background="White" Margin="255,146,254,146" Grid.RowSpan="2">
+                <Grid>
+                    <Button Command="{Binding CloseModal}"  CommandParameter="{Binding ElementName=Home}" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="0,5,5,0" Width="32" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Cursor="Hand"/>
+                    <TextBlock Text="Сообщение отправлено!" TextAlignment="Center" TextWrapping="Wrap" Margin="34,63,34,67" FontSize="20"/>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Visibility="Hidden" Name="MainModalError"  Background="#33000000" MouseDown="AccountModal_MouseDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="73*"/>
+                <RowDefinition Height="77*"/>
+            </Grid.RowDefinitions>
+            <Border  Width="0" Height="180" Name="ModelBorderError" MaxWidth="400" MaxHeight="250" CornerRadius="5" Background="White" Margin="255,146,254,146" Grid.RowSpan="2">
+                <Grid>
+                    <Button Command="{Binding CloseModal}"  CommandParameter="{Binding ElementName=Home}" Style="{StaticResource IconButtonsStyle}" Content="{DynamicResource close}"  Tag="IsCloseButton" Margin="0,5,5,0" Width="32" HorizontalAlignment="Right" Height="25" VerticalAlignment="Top" Cursor="Hand"/>
+                    <TextBlock Text="Сообщение пусто или слишком кратко!" TextAlignment="Center" TextWrapping="Wrap" Margin="34,63,34,67" FontSize="20"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
